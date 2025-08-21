@@ -7,9 +7,28 @@ const PORT = 4000;
 const Contact = require('./Contact/Contact');
 const Appointment = require('./Appointment/Appointment');
 const Doctor = require('./models/Doctor'); 
- 
+
 app.use(cors());
 app.use(bodyParser.json());
+
+
+const allowedOrigins = [ 
+ "http://localhost:3000", 
+ "https://aithospital.netlify.app/" 
+];app.use((req, res, next) => { 
+ const origin = req.headers.origin; 
+ if (allowedOrigins.includes(origin)) { 
+ res.setHeader("Access-Control-Allow-Origin", origin); 
+ } 
+ res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS"); 
+ res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization"); 
+ res.setHeader("Access-Control-Allow-Credentials", "true"); 
+ 
+ if (req.method === "OPTIONS") { 
+ return res.sendStatus(200); 
+ } 
+ next(); 
+});
 
  
 mongoose.connect('mongodb+srv://koustubhrayamane2001:LkJzWaEL4EGYG5bV@cluster0.byb9xqo.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0', {
@@ -100,20 +119,4 @@ app.delete('/appointments/:id', async (req, res) => {
 });
 
 
-const allowedOrigins = [ 
- "http://localhost:3000", 
- "https://aithospital.netlify.app/" 
-];app.use((req, res, next) => { 
- const origin = req.headers.origin; 
- if (allowedOrigins.includes(origin)) { 
- res.setHeader("Access-Control-Allow-Origin", origin); 
- } 
- res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS"); 
- res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization"); 
- res.setHeader("Access-Control-Allow-Credentials", "true"); 
- 
- if (req.method === "OPTIONS") { 
- return res.sendStatus(200); 
- } 
- next(); 
-});
+
