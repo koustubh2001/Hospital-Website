@@ -14,7 +14,7 @@ app.use(bodyParser.json());
 
 const allowedOrigins = [ 
  "http://localhost:3000", 
- "https://aithospital.netlify.app/" 
+ "https://aithospital.netlify.app" 
 ];app.use((req, res, next) => { 
  const origin = req.headers.origin; 
  if (allowedOrigins.includes(origin)) { 
